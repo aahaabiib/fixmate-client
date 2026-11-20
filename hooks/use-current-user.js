@@ -1,14 +1,15 @@
 "use client";
 
-// TEMPORARY: BetterAuth setup korar por ei file ta real session diye bodle dibo.
-const DEMO_USER = null;
-// Logged-in UI test korte chaile upore null er jaygay ei object ta boshao:
-// { name: "Habib Rahman", email: "test@example.com", role: "technician", image: "" }
+import { authClient } from "@/lib/auth-client";
 
 export function useCurrentUser() {
+  const { data, isPending } = authClient.useSession();
+
   return {
-    user: DEMO_USER,
-    isPending: false,
-    signOut: async () => {},
+    user: data?.user ?? null,
+    isPending,
+    signOut: async () => {
+      await authClient.signOut();
+    },
   };
 }
