@@ -13,7 +13,7 @@ const SOCIALS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-navy text-navy-foreground">
+    <footer className="border-t-2 border-primary bg-navy text-navy-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
         {/* Brand */}
         <div className="space-y-4">
@@ -97,7 +97,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <p className="mx-auto max-w-7xl px-4 py-5 text-center text-sm text-white/60 sm:px-6 lg:px-8">
-          © {new Date().getFullYear()} FixMate. All rights reserved.
+          © 2026 FixMate. All rights reserved.
         </p>
       </div>
     </footer>
