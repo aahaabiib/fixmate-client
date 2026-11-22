@@ -1,5 +1,5 @@
 import PageHeader from "@/components/dashboard/page-header";
-import WelcomeBanner from "@/components/dashboard/welcome-banner";
+import CustomerOverview from "@/components/dashboard/overview/customer-overview";
 
 export const metadata = { title: "Customer Dashboard | FixMate" };
 
@@ -7,7 +7,7 @@ export default function CustomerDashboardPage() {
   return (
     <>
       <PageHeader title="Overview" description="Your repair requests at a glance." />
-      <WelcomeBanner />
+      <CustomerOverview />
     </>
   );
 }
