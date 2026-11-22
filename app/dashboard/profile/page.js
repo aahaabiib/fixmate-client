@@ -1,13 +1,18 @@
 import PageHeader from "@/components/dashboard/page-header";
-import WelcomeBanner from "@/components/dashboard/welcome-banner";
+import ProfileForm from "@/components/dashboard/profile/profile-form";
 
-export const metadata = { title: "Profile | FixMate" };
+export const instant = false;
+
+export const metadata = { title: "My Profile | FixMate" };
 
 export default function ProfilePage() {
   return (
-    <>
-      <PageHeader title="My Profile" description="Update your name, photo and contact details." />
-      <WelcomeBanner />
-    </>
+    <div className="space-y-6">
+      <PageHeader
+        title="My profile"
+        description="Update your name, photo and contact details."
+      />
+      <ProfileForm />
+    </div>
   );
 }
