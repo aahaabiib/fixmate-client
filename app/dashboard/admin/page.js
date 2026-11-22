@@ -1,5 +1,6 @@
 import PageHeader from "@/components/dashboard/page-header";
 import AdminOverview from "@/components/dashboard/overview/admin-overview";
+export const instant = false;
 
 export const metadata = { title: "Admin Dashboard | FixMate" };
 

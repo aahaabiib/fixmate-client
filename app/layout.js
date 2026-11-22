@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
+
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-jakarta",
@@ -16,6 +17,7 @@ export const metadata = {
   description:
     "Find verified technicians for smartphone, laptop, AC, refrigerator, TV and more. Track every repair and pay only after the job is done.",
 };
+
 
 export default function RootLayout({ children }) {
   return (

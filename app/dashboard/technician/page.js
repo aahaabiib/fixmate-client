@@ -1,5 +1,6 @@
 import PageHeader from "@/components/dashboard/page-header";
 import TechnicianOverview from "@/components/dashboard/overview/technician-overview";
+export const instant = false;
 
 export const metadata = { title: "Technician Dashboard | FixMate" };
 
