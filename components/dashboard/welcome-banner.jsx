@@ -16,7 +16,7 @@ export default function WelcomeBanner() {
         Welcome back, <span className="text-primary">{user.name}</span>
       </h2>
       <p className="mt-2 max-w-xl text-sm text-navy-foreground/70">
-        Your stats and charts will appear here soon.
+               Here is what is happening with your account today.
       </p>
     </div>
   );
