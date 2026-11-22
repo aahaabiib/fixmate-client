@@ -49,17 +49,18 @@ export default function DashboardShell({ children }) {
     router.replace(ROLE_DASHBOARD[role] || "/dashboard/customer");
   }, [isPending, user, allowed, pathname, role, router]);
 
-  async function handleSignOut() {
-    signingOut.current = true;
-    try {
-      await authClient.signOut();
-      toast.success("Signed out successfully");
-      router.replace("/sign-in");
-    } catch {
-      signingOut.current = false;
-      toast.error("Could not sign out. Please try again.");
-    }
+async function handleSignOut() {
+  signingOut.current = true;
+  try {
+    await authClient.signOut();
+  } catch {
+    signingOut.current = false;
+    toast.error("Could not sign out. Please try again.");
+    return;
   }
+  // hard redirect: client state ar cache clear hoye sign-in e jabe
+  window.location.href = "/sign-in";
+}
 
   // Load hocche ba redirect hocche: skeleton dekhai
   if (isPending || !allowed) return <DashboardSkeleton />;
