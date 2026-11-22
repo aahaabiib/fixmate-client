@@ -162,7 +162,11 @@ export default async function ServiceDetailsPage({ params }) {
 
             <div className="mt-6">
               <RequestPanel
-                service={{ _id: service._id, title: service.title }}
+                service={{ 
+                    _id: service._id,
+                     title: service.title,
+                     basePrice: service.basePrice,
+                    }}
               />
             </div>
 

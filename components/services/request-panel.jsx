@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { toast } from "sonner";
 import { Info, LogIn, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import RequestDialog from "./request-dialog";
 
 export default function RequestPanel({ service }) {
   const { user, isPending } = useCurrentUser();
@@ -41,14 +41,5 @@ export default function RequestPanel({ service }) {
     );
   }
 
-  // Customer: Step 14-e ekhane request form modal khulbe
-  return (
-    <Button
-      size="lg"
-      className="w-full"
-      onClick={() => toast.info("Request form porer step-e ashbe")}
-    >
-      <Wrench className="size-4" /> Request Repair
-    </Button>
-  );
+  return <RequestDialog service={service} user={user} />;
 }
