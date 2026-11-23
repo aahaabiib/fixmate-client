@@ -16,6 +16,7 @@ import BookingCard from "./booking-card";
 import ReviewDialog from "./review-dialog";
 import ErrorState from "../error-state";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TimelineToggle } from "@/components/booking-timeline";
 
 export default function MyBookings() {
   const { data, error, loading, reload } = useApiData("/api/bookings/my");
@@ -135,6 +136,8 @@ export default function MyBookings() {
                 onPay={handlePay}
                 paying={payingId === b._id}
               />
+              
+              <TimelineToggle booking={b} />
 
               {b.status === "completed" && (
                 <div className="mt-2 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
