@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { ClipboardList, Search, SearchX, Star } from "lucide-react";
+import { ClipboardList, Search, SearchX, Star, Download, Loader2, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ConfirmDialog from "@/components/confirm-dialog";
 import EmptyState from "@/components/empty-state";
@@ -24,6 +24,7 @@ export default function MyBookings() {
   const [cancelTarget, setCancelTarget] = useState(null);
   const [reviewTarget, setReviewTarget] = useState(null);
   const [payingId, setPayingId] = useState(null);
+  const [invoiceId, setInvoiceId] = useState(null);
 
   if (loading && !data) {
     return (
@@ -95,6 +96,24 @@ export default function MyBookings() {
       setPayingId(null);
     }
   }
+    async function handleInvoice(booking) {
+    setInvoiceId(booking._id);
+    try {
+      const res = await apiFetch("/api/payments/my");
+      const payment = (res.payments || []).find(
+        (p) => String(p.bookingId) === String(booking._id)
+      );
+      if (!payment) throw new Error("Payment record not found");
+
+      const { downloadInvoice } = await import("@/lib/generate-invoice");
+      await downloadInvoice({ payment, booking });
+      toast.success("Invoice downloaded");
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setInvoiceId(null);
+    }
+  }
 
   return (
     <>
@@ -136,8 +155,28 @@ export default function MyBookings() {
                 onPay={handlePay}
                 paying={payingId === b._id}
               />
-              
+
               <TimelineToggle booking={b} />
+               {b.paymentStatus === "paid" && (
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
+                  <p className="text-sm text-muted-foreground">
+                    Payment received. Download your invoice as PDF.
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={invoiceId === b._id}
+                    onClick={() => handleInvoice(b)}
+                  >
+                    {invoiceId === b._id ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <Download className="size-4" />
+                    )}
+                    Download Invoice
+                  </Button>
+                </div>
+              )}
 
               {b.status === "completed" && (
                 <div className="mt-2 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
