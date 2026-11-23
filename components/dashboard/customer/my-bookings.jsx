@@ -3,15 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { ClipboardList, Search, SearchX } from "lucide-react";
+import { ClipboardList, Search, SearchX, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ConfirmDialog from "@/components/confirm-dialog";
 import EmptyState from "@/components/empty-state";
+import StarDisplay from "@/components/star-display";
 import { useApiData } from "@/hooks/use-api-data";
 import { apiFetch } from "@/lib/api";
 import { BOOKING_STATUSES, STATUS_META } from "@/lib/status";
 import { cn } from "@/lib/utils";
 import BookingCard from "./booking-card";
+import ReviewDialog from "./review-dialog";
 import ErrorState from "../error-state";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -19,6 +21,7 @@ export default function MyBookings() {
   const { data, error, loading, reload } = useApiData("/api/bookings/my");
   const [filter, setFilter] = useState("all");
   const [cancelTarget, setCancelTarget] = useState(null);
+  const [reviewTarget, setReviewTarget] = useState(null);
   const [payingId, setPayingId] = useState(null);
 
   if (loading && !data) {
@@ -125,13 +128,45 @@ export default function MyBookings() {
       ) : (
         <div className="space-y-4">
           {visible.map((b) => (
-            <BookingCard
-              key={b._id}
-              booking={b}
-              onCancel={setCancelTarget}
-              onPay={handlePay}
-              paying={payingId === b._id}
-            />
+            <div key={b._id}>
+              <BookingCard
+                booking={b}
+                onCancel={setCancelTarget}
+                onPay={handlePay}
+                paying={payingId === b._id}
+              />
+
+              {b.status === "completed" && (
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
+                  {b.rating ? (
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 text-sm">
+                        <span className="font-medium">Your rating</span>
+                        <StarDisplay value={b.rating} />
+                      </div>
+                      {b.review && (
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          “{b.review}”
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <>
+                      <p className="text-sm text-muted-foreground">
+                        How was the repair? Rate your technician.
+                      </p>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setReviewTarget(b)}
+                      >
+                        <Star className="size-4" /> Rate Job
+                      </Button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           ))}
         </div>
       )}
@@ -146,6 +181,15 @@ export default function MyBookings() {
         destructive
         onConfirm={confirmCancel}
       />
+
+      {reviewTarget && (
+        <ReviewDialog
+          key={reviewTarget._id}
+          booking={reviewTarget}
+          onClose={() => setReviewTarget(null)}
+          onDone={reload}
+        />
+      )}
     </>
   );
 }
