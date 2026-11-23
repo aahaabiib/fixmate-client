@@ -98,7 +98,7 @@ export default function Navbar() {
                                 >
                                     <Avatar className="h-9 w-9 border-2 border-primary">
                                         <AvatarImage src={user.image || undefined} alt={user.name} />
-                                        <AvatarFallback className="bg-primary text-sm font-semibold text-primary-foreground">
+                                        <AvatarFallback className="bg-primary text-sm font-semibold text-primary-foregroun">
                                             {getInitials(user.name)}
                                         </AvatarFallback>
                                     </Avatar>

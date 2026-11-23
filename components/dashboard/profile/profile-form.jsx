@@ -21,7 +21,7 @@ const PHONE_REGEX = /^[0-9+\-\s()]{6,20}$/;
 function Avatar({ src, name, className = "size-24" }) {
   if (src) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={src} alt={name} className={`${className} rounded-full object-cover`} />;
+    return <img src={src} alt={name} className={`${className} rounded-full object-cover object-top`} />;
   }
   return (
     <span
@@ -179,7 +179,7 @@ function ProfileEditor({ profile, onSaved }) {
       {/* Summary card */}
       <div className="h-fit rounded-2xl border bg-card p-6 text-center">
         <div className="flex justify-center">
-          <Avatar src={saved.image} name={saved.name} className="size-28" />
+          <Avatar src={saved.image} name={saved.name} className="size-85" />
         </div>
         <h2 className="mt-4 text-lg font-bold">{saved.name}</h2>
         <span className="mt-1 inline-block rounded-full bg-orange-500/10 px-3 py-1 text-xs font-medium capitalize text-orange-600 dark:text-orange-400">

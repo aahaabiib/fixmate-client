@@ -89,7 +89,7 @@ export default async function ServiceDetailsPage({ params }) {
             <ServiceImage
               src={service.image}
               alt={service.title}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover object-top"
             />
             <span className="absolute left-4 top-4 rounded-full bg-navy px-3 py-1 text-xs font-semibold text-navy-foreground shadow">
               {service.category}
@@ -150,7 +150,7 @@ export default async function ServiceDetailsPage({ params }) {
                   <ServiceImage
                     src={technician.image}
                     alt={techName}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover object-top"
                   />
                 </div>
               ) : (
