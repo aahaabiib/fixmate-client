@@ -9,7 +9,7 @@ export default function UserAvatar({ user, className = "size-9" }) {
       <img
         src={user.image}
         alt={user.name || "User"}
-        className={cn("rounded-full border object-cover", className)}
+        className={cn("rounded-full border object-cover object-top", className)}
       />
     );
   }
