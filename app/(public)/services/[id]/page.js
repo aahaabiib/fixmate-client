@@ -5,6 +5,7 @@ import {
   Clock,
   Home,
   MapPin,
+  MessageSquare,
   ShieldCheck,
   Store,
   Tag,
@@ -14,9 +15,18 @@ import { Button } from "@/components/ui/button";
 import EmptyState from "@/components/empty-state";
 import ServiceImage from "@/components/services/service-image";
 import RequestPanel from "@/components/services/request-panel";
-import { fetchServiceById } from "@/lib/services-api";
+import StarDisplay from "@/components/star-display";
+import { fetchServiceById, fetchServiceReviews } from "@/lib/services-api";
 
 export const metadata = { title: "Service Details | FixMate" };
+
+function formatDate(value) {
+  return new Date(value).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
 
 export default async function ServiceDetailsPage({ params }) {
   const { id } = await params;
@@ -41,6 +51,7 @@ export default async function ServiceDetailsPage({ params }) {
   }
 
   const { service, technician } = data;
+  const reviewData = await fetchServiceReviews(id);
   const ModeIcon = service.serviceMode === "Home Visit" ? Home : Store;
   const techName = technician?.name || service.technicianName;
 
@@ -89,6 +100,21 @@ export default async function ServiceDetailsPage({ params }) {
             <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
               {service.title}
             </h1>
+
+            <div className="mt-3 flex items-center gap-2 text-sm">
+              {reviewData.count > 0 ? (
+                <>
+                  <StarDisplay value={reviewData.average} />
+                  <span className="font-semibold">{reviewData.average}</span>
+                  <span className="text-muted-foreground">
+                    ({reviewData.count}{" "}
+                    {reviewData.count === 1 ? "review" : "reviews"})
+                  </span>
+                </>
+              ) : (
+                <span className="text-muted-foreground">No reviews yet</span>
+              )}
+            </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {facts.map(({ icon: Icon, label, value }) => (
@@ -146,6 +172,46 @@ export default async function ServiceDetailsPage({ params }) {
               </div>
             </div>
           </section>
+
+          {/* Reviews */}
+          <section>
+            <h2 className="text-lg font-bold">Customer reviews</h2>
+            {reviewData.count === 0 ? (
+              <div className="mt-3 flex items-center gap-3 rounded-2xl border border-dashed bg-card p-5 text-sm text-muted-foreground">
+                <MessageSquare className="size-5 shrink-0 text-primary" />
+                No reviews yet. Reviews appear here after customers complete a
+                job.
+              </div>
+            ) : (
+              <div className="mt-3 space-y-3">
+                {reviewData.reviews.map((r) => (
+                  <div key={r._id} className="rounded-2xl border bg-card p-5">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-3">
+                        <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                          {r.customerName?.charAt(0)?.toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold">
+                            {r.customerName}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {formatDate(r.date)}
+                          </p>
+                        </div>
+                      </div>
+                      <StarDisplay value={r.rating} />
+                    </div>
+                    {r.review && (
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                        {r.review}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
         </div>
 
         {/* Right: price + request */}
@@ -162,11 +228,11 @@ export default async function ServiceDetailsPage({ params }) {
 
             <div className="mt-6">
               <RequestPanel
-                service={{ 
-                    _id: service._id,
-                     title: service.title,
-                     basePrice: service.basePrice,
-                    }}
+                service={{
+                  _id: service._id,
+                  title: service.title,
+                  basePrice: service.basePrice,
+                }}
               />
             </div>
 
