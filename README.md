@@ -34,6 +34,7 @@ These are demo accounts with demo data. Seeded transaction IDs are not real Stri
 - Admin can manage users and roles, approve or reject services, view all bookings and transactions
 - Profile page with photo upload
 - Light and dark mode, loading skeletons, custom 404 page, error boundary, toasts, empty states and confirmation modals
+- Rating, Timeline & Invoice pdf download availeble 
 - Fully responsive layout
 
 ## Tech Stack
