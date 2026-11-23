@@ -96,7 +96,7 @@ export default function Navbar() {
                                     className="rounded-full outline-none ring-primary focus-visible:ring-2"
                                     aria-label="Open user menu"
                                 >
-                                    <Avatar className="h-9 w-9 border-2 border-primary">
+                                    <Avatar className="h-10 w-10">
                                         <AvatarImage src={user.image || undefined} alt={user.name} />
                                         <AvatarFallback className="bg-primary text-sm font-semibold text-primary-foregroun">
                                             {getInitials(user.name)}
@@ -104,7 +104,7 @@ export default function Navbar() {
                                     </Avatar>
                                 </button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-60">
+                            <DropdownMenuContent align="start" className="w-60">
                                 <DropdownMenuLabel className="space-y-1.5">
                                     <p className="truncate text-sm font-semibold">{user.name}</p>
                                     <p className="truncate text-xs font-normal text-muted-foreground">
